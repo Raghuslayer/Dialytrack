@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warrior's Path - Strength & Discipline</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Oswald:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: linear-gradient(to right, #0a0f24, #000);
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+            text-align: center;
+            user-select: none; /* Prevent text selection */
+        }
+
+        /* Auth Box */
+        .auth-box {
+            background: rgba(10, 15, 36, 0.9);
+            padding: 35px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(255, 204, 0, 0.8);
+            width: 320px;
+            border: 2px solid gold;
+            opacity: 1;
+            transition: all 0.2s ease;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        h2 {
+            font-size: 2em;
+            font-weight: 700;
+            color: gold;
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 12px 0;
+            border: 2px solid gold;
+            border-radius: 6px;
+            font-size: 16px;
+            background: transparent;
+            color: white;
+            text-align: center;
+            outline: none;
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        button {
+            background: gold;
+            color: black;
+            padding: 14px;
+            border: none;
+            width: 100%;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'Oswald', sans-serif;
+        }
+
+        button:hover {
+            background: #d4af37;
+            transform: scale(1.05);
+        }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+            display: none;
+        }
+
+        .switch {
+            color: white;
+            cursor: pointer;
+            text-decoration: underline;
+            margin-top: 10px;
+        }
+
+        /* Home Page */
+        .home-page {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            color: white;
+            width: 90%;
+            max-width: 600px;
+            margin-top: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.2s ease;
+            visibility: hidden;
+        }
+
+        .home-page.active {
+            opacity: 1;
+            transform: translateY(0);
+            visibility: visible;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            font-weight: 700;
+            font-family: 'Oswald', sans-serif;
+            color: gold;
+            margin-bottom: 30px;
+        }
+
+        .tiles {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .tile {
+            background: rgba(10, 15, 36, 0.9);
+            padding: 25px;
+            width: 100%;
+            text-align: center;
+            border-radius: 12px;
+            font-size: 1.2em;
+            font-weight: bold;
+            box-shadow: 0 0 15px rgba(255, 204, 0, 0.8);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px solid gold;
+            color: white;
+            font-family: 'Oswald', sans-serif;
+        }
+
+        .tile:hover {
+            transform: scale(1.05);
+            background: gold;
+            color: black;
+        }
+
+        .logout {
+            margin-top: 30px;
+            background: gold;
+            padding: 14px 30px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: 'Oswald', sans-serif;
+            transition: all 0.2s ease;
+            color: black;
+            font-weight: bold;
+        }
+
+        .logout:hover {
+            background: #d4af37;
+            transform: scale(1.05);
+        }
+
+        /* Transition Classes */
+        .auth-section-hidden {
+            opacity: 0;
+            transform: translateY(-20px);
+            visibility: hidden;
+        }
+
+        /* Upload Page and See Uploads Page */
+        .upload-page, .see-uploads-page {
+            display: none;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            margin-top: 20px;
+            position:absolute;
+        }
+
+        .upload-page.active, .see-uploads-page.active {
+            display: block;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .upload-box {
+            border: 2px dashed yellow;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            position: relative;
+            transition: transform 0.3s;
+            background-color: rgba(255, 215, 0, 0.1);
+            cursor: pointer;
+        }
+
+        .upload-box:hover {
+            transform: scale(1.05);
+        }
+
+        .upload-box p {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .glow {
+            box-shadow: 0 0 10px yellow;
+        }
+
+        .prompt {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px yellow;
+            text-align: center;
+            display: none;
+            z-index: 1000;
+        }
+
+        .prompt img {
+            max-width: 200px;
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+
+        .prompt button {
+            background: yellow;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .action-message {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px yellow;
+            display: none;
+            z-index: 1000;
+        }
+
+        /* See Uploads Page */
+        .task-box {
+            border: 2px solid yellow;
+            border-radius: 10px;
+            padding: 10px;
+            background-color: rgba(255, 215, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .task-box:hover {
+            transform: scale(1.05);
+        }
+
+        .task-box img {
+            max-width: 100%;
+            border-radius: 10px;
+        }
+
+        .task-box p {
+            margin: 10px 0 0;
+            font-weight: bold;
+        }
+
+        .no-image {
+            color: rgba(255, 255, 255, 0.5);
+            font-style: italic;
+        }
+
+        input[type="date"] {
+            background: black;
+            color: white;
+            border: 2px solid yellow;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        /* Back Button */
+        .back-button {
+            background: gold;
+            color: black;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 20px;
+            font-family: 'Oswald', sans-serif;
+        }
+
+        .back-button:hover {
+            background: #d4af37;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Auth Section -->
+    <div id="auth-section">
+        <div id="signup-box" class="auth-box auth-section-hidden" style="display: none;">
+            <h2>Sign Up</h2>
+            <input type="email" id="signup-email" placeholder="Enter your email">
+            <input type="password" id="signup-password" placeholder="Create a password">
+            <p id="signup-error" class="error-message"></p>
+            <button onclick="handleSignUp()">Sign Up</button>
+            <p class="switch" onclick="showLogin()">Already have an account? Log in</p>
+        </div>
+
+        <div id="login-box" class="auth-box">
+            <h2>Login</h2>
+            <input type="email" id="login-email" placeholder="Enter your email">
+            <input type="password" id="login-password" placeholder="Enter your password">
+            <p id="login-error" class="error-message"></p>
+            <button onclick="handleLogin()">Login</button>
+            <p class="switch" onclick="showSignUp()">Don't have an account? Sign Up</p>
+        </div>
+    </div>
+
+    <!-- Home Page -->
+    <div class="home-page">
+        <h1>Welcome, Warrior!</h1>
+        <div class="tiles">
+            <div class="tile" onclick="openSeeUploadsPage()">See Achievements</div>
+            <div class="tile" onclick="openUploadPage()">Upload Achievements</div>
+        </div>
+        <div class="logout" onclick="handleLogout()">Logout</div>
+    </div>
+
+    <!-- Upload Page -->
+    <div class="upload-page">
+        <button class="back-button" onclick="goBackToHome()">Back to Home</button>
+        <h1 style="color: yellow; text-shadow: 0 0 10px yellow;">Your Tasks</h1>
+        <div class="container" id="imageGrid"></div>
+        <div id="confirmationPrompt" class="prompt">
+            <h3>Confirm Your Selection</h3>
+            <img id="previewImage" src="" alt="Selected Image">
+            <br>
+            <button id="confirmButton">Confirm</button>
+            <button id="cancelButton">Cancel</button>
+        </div>
+        <div id="timePrompt" class="prompt">
+            <h3>Not the Right Time!</h3>
+            <p>You can only upload images for "Wakeup at 5am" between 5:00 AM and 5:30 AM.</p>
+            <p>Stay disciplined and try again tomorrow! 💪</p>
+            <button id="okButton">Okay</button>
+        </div>
+        <div id="actionMessage" class="action-message"></div>
+    </div>
+
+    <!-- See Uploads Page -->
+    <div class="see-uploads-page">
+        <button class="back-button" onclick="goBackToHome()">Back to Home</button>
+        <h1>Task Image Viewer</h1>
+        <input type="date" id="datePicker">
+        <div class="container" id="imageGridSeeUploads"></div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyA-MbNl9CRPRMkT9dfJDADR4jZC5NyuUS4",
+            authDomain: "daily-task-tracker-cbe8e.firebaseapp.com",
+            projectId: "daily-task-tracker-cbe8e",
+            storageBucket: "daily-task-tracker-cbe8e.appspot.com",
+            messagingSenderId: "849038116144",
+            appId: "1:849038116144:web:de46c9c93dabd235e2b4f5",
+            measurementId: "G-WJGEWCVCPB"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Auth Functions
+        window.showSignUp = function () {
+            document.getElementById("login-box").classList.add("auth-section-hidden");
+            setTimeout(() => {
+                document.getElementById("login-box").style.display = "none";
+                document.getElementById("signup-box").style.display = "block";
+                setTimeout(() => document.getElementById("signup-box").classList.remove("auth-section-hidden"), 50);
+            }, 500);
+        };
+
+        window.showLogin = function () {
+            document.getElementById("signup-box").classList.add("auth-section-hidden");
+            setTimeout(() => {
+                document.getElementById("signup-box").style.display = "none";
+                document.getElementById("login-box").style.display = "block";
+                setTimeout(() => document.getElementById("login-box").classList.remove("auth-section-hidden"), 50);
+            }, 500);
+        };
+
+        window.handleSignUp = async function () {
+            const email = document.getElementById("signup-email").value;
+            const password = document.getElementById("signup-password").value;
+            const errorBox = document.getElementById("signup-error");
+
+            try {
+                await createUserWithEmailAndPassword(auth, email, password);
+                alert("Sign Up Successful! Please log in.");
+                showLogin();
+            } catch (error) {
+                errorBox.innerText = error.message;
+                errorBox.style.display = "block";
+            }
+        };
+
+        window.handleLogin = async function () {
+            const email = document.getElementById("login-email").value;
+            const password = document.getElementById("login-password").value;
+            const errorBox = document.getElementById("login-error");
+
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                document.getElementById("auth-section").classList.add("auth-section-hidden");
+                setTimeout(() => {
+                    document.querySelector(".home-page").classList.add("active");
+                }, 500);
+            } catch (error) {
+                errorBox.innerText = "Invalid credentials. Try again!";
+                errorBox.style.display = "block";
+            }
+        };
+
+        window.handleLogout = async function () {
+            await signOut(auth);
+            document.querySelector(".home-page").classList.remove("active");
+            document.querySelector(".upload-page").classList.remove("active");
+            document.querySelector(".see-uploads-page").classList.remove("active");
+            setTimeout(() => {
+                document.getElementById("auth-section").classList.remove("auth-section-hidden");
+            }, 500);
+        };
+
+        // Navigation Functions
+        window.openUploadPage = function () {
+            document.querySelector(".home-page").classList.remove("active");
+            document.querySelector(".upload-page").classList.add("active");
+            initializeUploadPage();
+        };
+
+        window.openSeeUploadsPage = function () {
+            document.querySelector(".home-page").classList.remove("active");
+            document.querySelector(".see-uploads-page").classList.add("active");
+            initializeSeeUploadsPage();
+        };
+
+        // Back to Home Function
+        window.goBackToHome = function () {
+            document.querySelector(".upload-page").classList.remove("active");
+            document.querySelector(".see-uploads-page").classList.remove("active");
+            document.querySelector(".home-page").classList.add("active");
+        };
+
+        // Upload Page Functions
+        function initializeUploadPage() {
+            const activities = [
+                "Wakeup at 5am", "Exercise", "Meditation", "Tiffin", "Lunch", "Protein Powder", "Gym", "Dry Fruits", "Study Tasks"
+            ];
+
+            let selectedTaskName = null;
+
+            function showActionMessage(message, isError = false) {
+                const actionMessage = document.getElementById("actionMessage");
+                actionMessage.textContent = message;
+                actionMessage.style.color = isError ? "red" : "yellow";
+                actionMessage.style.display = "block";
+                setTimeout(() => {
+                    actionMessage.style.display = "none";
+                }, 3000);
+            }
+
+            function createUploadBox(name) {
+                const box = document.createElement("div");
+                box.className = "upload-box glow";
+                box.innerHTML = "📷";
+                const text = document.createElement("p");
+                text.innerText = name;
+                box.appendChild(text);
+
+                const fileInput = document.createElement("input");
+                fileInput.type = "file";
+                fileInput.accept = "image/*";
+                fileInput.addEventListener("change", function (event) {
+                    if (event.target.files.length > 0) {
+                        const reader = new FileReader();
+                        reader.onload = function (e) {
+                            document.getElementById("previewImage").src = e.target.result;
+                            document.getElementById("confirmationPrompt").style.display = "block";
+                            selectedTaskName = name;
+                        };
+                        reader.readAsDataURL(event.target.files[0]);
+                    }
+                });
+
+                box.addEventListener("click", function () {
+                    if (name === "Wakeup at 5am") {
+                        const now = new Date();
+                        const hours = now.getHours();
+                        const minutes = now.getMinutes();
+                        if (hours === 5 && minutes >= 0 && minutes <= 30) {
+                            fileInput.click();
+                        } else {
+                            document.getElementById("timePrompt").style.display = "block";
+                        }
+                    } else {
+                        fileInput.click();
+                    }
+                });
+
+                box.appendChild(fileInput);
+                document.getElementById("imageGrid").appendChild(box);
+            }
+
+            async function uploadImageToImgBB(imageData) {
+                try {
+                    const formData = new FormData();
+                    formData.append("image", imageData.split(",")[1]);
+                    formData.append("name", `${selectedTaskName}-${new Date().toISOString().split("T")[0]}`);
+
+                    const response = await fetch("https://api.imgbb.com/1/upload?key=ed2da0de64a3e62a7c622a3edbae9419", {
+                        method: "POST",
+                        body: formData,
+                    });
+                    const result = await response.json();
+                    if (result.data && result.data.url) {
+                        showActionMessage("Image uploaded to ImgBB successfully!");
+                        return result.data.url;
+                    } else {
+                        throw new Error("Failed to upload image to ImgBB");
+                    }
+                } catch (error) {
+                    showActionMessage("Failed to upload image to ImgBB: " + error.message, true);
+                    return null;
+                }
+            }
+
+            function getCurrentDateInIST() {
+                const now = new Date();
+                return now.toLocaleDateString("en-CA", { timeZone: "Asia/Kolkata" });
+            }
+
+            async function confirmUpload() {
+                const img = document.getElementById("previewImage").src;
+
+                const imageUrl = await uploadImageToImgBB(img);
+                if (!imageUrl) {
+                    return;
+                }
+
+                closePrompt();
+
+                try {
+                    const currentDate = getCurrentDateInIST();
+                    const docRef = doc(db, "dailyTasks", currentDate);
+                    const docSnap = await getDoc(docRef);
+
+                    let data = {};
+                    if (docSnap.exists()) {
+                        data = docSnap.data();
+                    }
+                    data[selectedTaskName] = imageUrl;
+
+                    await setDoc(docRef, data, { merge: true });
+                    showActionMessage(`Image URL saved to Firebase for ${selectedTaskName} on ${currentDate}!`);
+                } catch (error) {
+                    showActionMessage("Failed to save image URL to Firebase: " + error.message, true);
+                }
+            }
+
+            function closePrompt() {
+                document.getElementById("confirmationPrompt").style.display = "none";
+            }
+
+            function closeTimePrompt() {
+                document.getElementById("timePrompt").style.display = "none";
+            }
+
+            function createDynamicGrid() {
+                document.getElementById("imageGrid").innerHTML = "";
+                activities.forEach(activity => createUploadBox(activity));
+            }
+
+            document.getElementById("confirmButton").addEventListener("click", confirmUpload);
+            document.getElementById("cancelButton").addEventListener("click", closePrompt);
+            document.getElementById("okButton").addEventListener("click", closeTimePrompt);
+
+            createDynamicGrid();
+        }
+
+        // See Uploads Page Functions
+        function initializeSeeUploadsPage() {
+            const tasks = [
+                "Wakeup at 5am", "Exercise", "Meditation", "Tiffin", "Lunch", "Protein Powder", "Gym", "Dry Fruits", "Study Tasks"
+            ];
+
+            async function fetchAndDisplayTasks(date) {
+                const docId = date;
+                const docRef = doc(db, "dailyTasks", docId);
+                const docSnap = await getDoc(docRef);
+
+                const imageGrid = document.getElementById("imageGridSeeUploads");
+                imageGrid.innerHTML = "";
+
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    tasks.forEach(task => {
+                        const imageUrl = data[task];
+                        const taskBox = document.createElement("div");
+                        taskBox.className = "task-box";
+                        taskBox.innerHTML = `
+                            ${imageUrl ? `<img src="${imageUrl}" alt="${task}">` : `<p class="no-image">No Image</p>`}
+                            <p>${task}</p>
+                        `;
+                        imageGrid.appendChild(taskBox);
+                    });
+                } else {
+                    tasks.forEach(task => {
+                        const taskBox = document.createElement("div");
+                        taskBox.className = "task-box";
+                        taskBox.innerHTML = `
+                            <p class="no-image">No Image</p>
+                            <p>${task}</p>
+                        `;
+                        imageGrid.appendChild(taskBox);
+                    });
+                }
+            }
+
+            document.getElementById("datePicker").addEventListener("change", (event) => {
+                const selectedDate = event.target.value;
+                fetchAndDisplayTasks(selectedDate);
+            });
+
+            const today = new Date().toISOString().split("T")[0];
+            document.getElementById("datePicker").value = today;
+            fetchAndDisplayTasks(today);
+        }
+    </script>
+</body>
+</html>
