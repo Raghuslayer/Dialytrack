@@ -3,399 +3,191 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Warrior's Path - Strength & Discipline</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Oswald:wght@400;700&display=swap" rel="stylesheet">
+    <title>Rise Up - Conquer Your Goals</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
-        body {
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            width: 100%;
+            user-select: none;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #1a1a40, #0a0a20);
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background: linear-gradient(to right, #0a0f24, #000);
-            color: white;
-            font-family: 'Montserrat', sans-serif;
-            text-align: center;
-            user-select: none; /* Prevent text selection */
-        }
-
-        /* Auth Box */
-        .auth-box {
-            background: rgba(10, 15, 36, 0.9);
-            padding: 35px;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 0 20px rgba(255, 204, 0, 0.8);
-            width: 320px;
-            border: 2px solid gold;
-            opacity: 1;
-            transition: all 0.2s ease;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        h2 {
-            font-size: 2em;
-            font-weight: 700;
-            color: gold;
-            font-family: 'Oswald', sans-serif;
-            text-transform: uppercase;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px;
-            margin: 12px 0;
-            border: 2px solid gold;
-            border-radius: 6px;
-            font-size: 16px;
-            background: transparent;
-            color: white;
-            text-align: center;
-            outline: none;
-        }
-
-        input::placeholder {
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        button {
-            background: gold;
-            color: black;
-            padding: 14px;
-            border: none;
-            width: 100%;
-            font-size: 18px;
-            font-weight: bold;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-family: 'Oswald', sans-serif;
-        }
-
-        button:hover {
-            background: #d4af37;
-            transform: scale(1.05);
-        }
-
-        .error-message {
-            color: red;
-            font-size: 14px;
-            display: none;
-        }
-
-        .switch {
-            color: white;
-            cursor: pointer;
-            text-decoration: underline;
-            margin-top: 10px;
-        }
-
-        /* Home Page */
-        .home-page {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            color: white;
-            width: 90%;
-            max-width: 600px;
-            margin-top: 20px;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.2s ease;
-            visibility: hidden;
-        }
-
-        .home-page.active {
-            opacity: 1;
-            transform: translateY(0);
-            visibility: visible;
-        }
-
-        h1 {
-            font-size: 2.5em;
-            font-weight: 700;
-            font-family: 'Oswald', sans-serif;
-            color: gold;
-            margin-bottom: 30px;
-        }
-
-        .tiles {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            width: 100%;
-            max-width: 400px;
-            margin: 0 auto;
-        }
-
-        .tile {
-            background: rgba(10, 15, 36, 0.9);
-            padding: 25px;
-            width: 100%;
-            text-align: center;
-            border-radius: 12px;
-            font-size: 1.2em;
-            font-weight: bold;
-            box-shadow: 0 0 15px rgba(255, 204, 0, 0.8);
-            cursor: pointer;
-            transition: all 0.2s ease;
-            border: 2px solid gold;
-            color: white;
-            font-family: 'Oswald', sans-serif;
-        }
-
-        .tile:hover {
-            transform: scale(1.05);
-            background: gold;
-            color: black;
-        }
-
-        .logout {
-            margin-top: 30px;
-            background: gold;
-            padding: 14px 30px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-family: 'Oswald', sans-serif;
-            transition: all 0.2s ease;
-            color: black;
-            font-weight: bold;
-        }
-
-        .logout:hover {
-            background: #d4af37;
-            transform: scale(1.05);
-        }
-
-        /* Transition Classes */
-        .auth-section-hidden {
-            opacity: 0;
-            transform: translateY(-20px);
-            visibility: hidden;
-        }
-
-        /* Upload Page and See Uploads Page */
-        .upload-page, .see-uploads-page {
-            display: none;
-            color: white;
-            text-align: center;
-            padding: 20px;
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            margin-top: 20px;
-            position:absolute;
-        }
-
-        .upload-page.active, .see-uploads-page.active {
-            display: block;
-        }
-
-        .container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 20px;
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .upload-box {
-            border: 2px dashed yellow;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
+            overflow-x: hidden;
+            color: #f0f0ff;
             position: relative;
-            transition: transform 0.3s;
-            background-color: rgba(255, 215, 0, 0.1);
-            cursor: pointer;
         }
-
-        .upload-box:hover {
-            transform: scale(1.05);
-        }
-
-        .upload-box p {
-            margin-top: 10px;
-            font-weight: bold;
-        }
-
-        .glow {
-            box-shadow: 0 0 10px yellow;
-        }
-
-        .prompt {
+        body::before {
+            content: '';
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(0, 0, 0, 0.9);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 15px yellow;
-            text-align: center;
-            display: none;
-            z-index: 1000;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 77, 77, 0.1), transparent 70%);
+            opacity: 0.3;
+            z-index: -1;
         }
-
-        .prompt img {
-            max-width: 200px;
-            border-radius: 10px;
-            margin: 10px 0;
+        .motivational-glow {
+            box-shadow: 0 0 12px rgba(255, 77, 77, 0.4), 0 0 24px rgba(255, 77, 77, 0.2);
         }
-
-        .prompt button {
-            background: yellow;
-            border: none;
-            padding: 10px 20px;
-            margin: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            border-radius: 5px;
+        .fade-in {
+            animation: fadeIn 0.6s ease-in;
         }
-
-        input[type="file"] {
-            display: none;
+        .rise-up {
+            animation: riseUp 0.6s ease-out;
         }
-
-        .action-message {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.8);
-            padding: 10px 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px yellow;
-            display: none;
-            z-index: 1000;
+        .pulse-glow {
+            animation: pulseGlow 2s infinite;
         }
-
-        /* See Uploads Page */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes riseUp {
+            from { transform: translateY(40px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 12px rgba(255, 77, 77, 0.4); }
+            50% { box-shadow: 0 0 20px rgba(255, 77, 77, 0.6), 0 0 30px rgba(255, 77, 77, 0.3); }
+        }
+        .modal-rise {
+            animation: modalRise 0.4s ease-out;
+        }
+        @keyframes modalRise {
+            from { transform: scale(0.9) translateY(20px); opacity: 0; }
+            to { transform: scale(1) translateY(0); opacity: 1; }
+        }
+        input, button {
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            transform: translateY(-3px);
+        }
         .task-box {
-            border: 2px solid yellow;
-            border-radius: 10px;
-            padding: 10px;
-            background-color: rgba(255, 215, 0, 0.1);
-            transition: transform 0.3s;
+            transition: transform 0.3s ease, background-color 0.3s ease;
         }
-
         .task-box:hover {
             transform: scale(1.05);
         }
-
-        .task-box img {
-            max-width: 100%;
-            border-radius: 10px;
+        .progress-bar {
+            background: #2d2d4a;
+            height: 12px;
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
         }
-
-        .task-box p {
-            margin: 10px 0 0;
-            font-weight: bold;
+        .progress-fill {
+            background: #ff4d4d;
+            height: 100%;
+            transition: width 0.5s ease-in-out;
         }
-
-        .no-image {
-            color: rgba(255, 255, 255, 0.5);
-            font-style: italic;
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: shimmer 2s infinite;
         }
-
-        input[type="date"] {
-            background: black;
-            color: white;
-            border: 2px solid yellow;
-            padding: 10px;
-            border-radius: 5px;
-            font-size: 16px;
-            margin-bottom: 20px;
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
-
-        /* Back Button */
-        .back-button {
-            background: gold;
-            color: black;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            margin-bottom: 20px;
-            font-family: 'Oswald', sans-serif;
-        }
-
-        .back-button:hover {
-            background: #d4af37;
-            transform: scale(1.05);
+        @media (max-width: 640px) {
+            h1 {
+                font-size: 2rem;
+            }
+            .container {
+                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            }
         }
     </style>
 </head>
 <body>
 
     <!-- Auth Section -->
-    <div id="auth-section">
-        <div id="signup-box" class="auth-box auth-section-hidden" style="display: none;">
-            <h2>Sign Up</h2>
-            <input type="email" id="signup-email" placeholder="Enter your email">
-            <input type="password" id="signup-password" placeholder="Create a password">
-            <p id="signup-error" class="error-message"></p>
-            <button onclick="handleSignUp()">Sign Up</button>
-            <p class="switch" onclick="showLogin()">Already have an account? Log in</p>
+    <div id="auth-section" class="flex items-center justify-center min-h-screen px-4">
+        <div id="signup-box" class="bg-gray-900 bg-opacity-90 p-8 rounded-2xl w-full max-w-md motivational-glow hidden rise-up">
+            <h2 class="text-3xl font-bold text-red-500 font-bebas mb-6 text-center">Begin Your Rise</h2>
+            <input type="email" id="signup-email" placeholder="Your Email" class="w-full p-3 mb-4 bg-gray-800 border-2 border-red-500 rounded-xl text-white focus:outline-none focus:border-red-400 placeholder-gray-400 text-center">
+            <input type="password" id="signup-password" placeholder="Create Password" class="w-full p-3 mb-4 bg-gray-800 border-2 border-red-500 rounded-xl text-white focus:outline-none focus:border-red-400 placeholder-gray-400 text-center">
+            <p id="signup-error" class="text-red-400 text-sm mb-4 hidden text-center"></p>
+            <button onclick="handleSignUp()" class="w-full bg-red-500 text-white p-3 rounded-xl font-bold font-bebas text-lg hover:bg-red-400 pulse-glow">Sign Up</button>
+            <p class="text-gray-300 text-sm mt-4 text-center cursor-pointer hover:text-red-400 transition" onclick="showLogin()">Already rising? Log In</p>
         </div>
 
-        <div id="login-box" class="auth-box">
-            <h2>Login</h2>
-            <input type="email" id="login-email" placeholder="Enter your email">
-            <input type="password" id="login-password" placeholder="Enter your password">
-            <p id="login-error" class="error-message"></p>
-            <button onclick="handleLogin()">Login</button>
-            <p class="switch" onclick="showSignUp()">Don't have an account? Sign Up</p>
+        <div id="login-box" class="bg-gray-900 bg-opacity-90 p-8 rounded-2xl w-full max-w-md motivational-glow rise-up">
+            <h2 class="text-3xl font-bold text-red-500 font-bebas mb-6 text-center">Rise to Conquer</h2>
+            <input type="email" id="login-email" placeholder="Your Email" class="w-full p-3 mb-4 bg-gray-800 border-2 border-red-500 rounded-xl text-white focus:outline-none focus:border-red-400 placeholder-gray-400 text-center">
+            <input type="password" id="login-password" placeholder="Your Password" class="w-full p-3 mb-4 bg-gray-800 border-2 border-red-500 rounded-xl text-white focus:outline-none focus:border-red-400 placeholder-gray-400 text-center">
+            <p id="login-error" class="text-red-400 text-sm mb-4 hidden text-center"></p>
+            <button onclick="handleLogin()" class="w-full bg-red-500 text-white p-3 rounded-xl font-bold font-bebas text-lg hover:bg-red-400 pulse-glow">Log In</button>
+            <p class="text-gray-300 text-sm mt-4 text-center cursor-pointer hover:text-red-400 transition" onclick="showSignUp()">New to the fight? Sign Up</p>
         </div>
     </div>
 
     <!-- Home Page -->
-    <div class="home-page">
-        <h1>Welcome, Warrior!</h1>
-        <div class="tiles">
-            <div class="tile" onclick="openSeeUploadsPage()">See Achievements</div>
-            <div class="tile" onclick="openUploadPage()">Upload Achievements</div>
+    <div class="home-page hidden p-6 w-full max-w-lg mx-auto flex flex-col items-center justify-center min-h-screen">
+        <h1 class="text-4xl font-bold text-red-500 font-bebas mb-8 rise-up text-center">Rise Up, Champion!</h1>
+        <div class="flex flex-col items-center gap-4 w-full">
+            <div class="bg-gray-900 bg-opacity-90 p-5 rounded-xl motivational-glow cursor-pointer hover:bg-red-500 hover:text-white transition w-full text-center font-bebas text-lg" onclick="openSeeUploadsPage()">View Victories</div>
+            <div class="bg-gray-900 bg-opacity-90 p-5 rounded-xl motivational-glow cursor-pointer hover:bg-red-500 hover:text-white transition w-full text-center font-bebas text-lg" onclick="openUploadPage()">Log Victories</div>
+            <div class="bg-red-500 text-white p-4 rounded-xl font-bold font-bebas text-lg cursor-pointer hover:bg-red-400 transition w-full max-w-xs text-center pulse-glow" onclick="handleLogout()">Log Out</div>
         </div>
-        <div class="logout" onclick="handleLogout()">Logout</div>
     </div>
 
     <!-- Upload Page -->
-    <div class="upload-page">
-        <button class="back-button" onclick="goBackToHome()">Back to Home</button>
-        <h1 style="color: yellow; text-shadow: 0 0 10px yellow;">Your Tasks</h1>
-        <div class="container" id="imageGrid"></div>
-        <div id="confirmationPrompt" class="prompt">
-            <h3>Confirm Your Selection</h3>
-            <img id="previewImage" src="" alt="Selected Image">
-            <br>
-            <button id="confirmButton">Confirm</button>
-            <button id="cancelButton">Cancel</button>
+    <div class="upload-page hidden p-6 w-full max-w-7xl mx-auto">
+        <button class="bg-red-500 text-white p-3 rounded-xl font-bold font-bebas text-lg mb-6 hover:bg-red-400 pulse-glow" onclick="goBackToHome()">Back to Home</button>
+        <h1 class="text-4xl font-bold text-red-500 font-bebas mb-6 rise-up text-center">Conquer Your Tasks</h1>
+        <div class="container grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4" id="imageGrid"></div>
+        <div id="confirmationPrompt" class="fixed inset-0 bg-black bg-opacity-85 flex items-center justify-center hidden">
+            <div class="bg-gray-900 bg-opacity-95 p-6 rounded-2xl max-w-md w-full motivational-glow modal-rise">
+                <h3 class="text-2xl font-bold text-red-500 font-bebas mb-4 text-center">Claim Your Victory</h3>
+                <img id="previewImage" src="" alt="Selected Image" class="w-full max-w-[250px] rounded-xl mx-auto mb-4">
+                <div class="flex justify-center gap-4">
+                    <button id="confirmButton" class="bg-red-500 text-white p-2 rounded-xl font-bold font-bebas hover:bg-red-400">Confirm</button>
+                    <button id="cancelButton" class="bg-gray-700 text-white p-2 rounded-xl font-bold font-bebas hover:bg-gray-600">Cancel</button>
+                </div>
+            </div>
         </div>
-        <div id="timePrompt" class="prompt">
-            <h3>Not the Right Time!</h3>
-            <p>You can only upload images for "Wakeup at 5am" between 5:00 AM and 5:30 AM.</p>
-            <p>Stay disciplined and try again tomorrow! 💪</p>
-            <button id="okButton">Okay</button>
+        <div id="timePrompt" class="fixed inset-0 bg-black bg-opacity-85 flex items-center justify-center hidden">
+            <div class="bg-gray-900 bg-opacity-95 p-6 rounded-2xl max-w-md w-full motivational-glow modal-rise">
+                <h3 class="text-2xl font-bold text-red-500 font-bebas mb-4 text-center">Stay Resilient!</h3>
+                <p class="text-gray-300 mb-4 text-center">"5 AM - Wake Up" uploads are only between 5:00 AM and 5:30 AM.</p>
+                <p class="text-gray-300 mb-4 text-center">Keep fighting, rise tomorrow! 💥</p>
+                <button id="okButton" class="bg-red-500 text-white p-2 rounded-xl font-bold font-bebas hover:bg-red-400 w-full">Got It</button>
+            </div>
         </div>
-        <div id="actionMessage" class="action-message"></div>
+        <div id="actionMessage" class="fixed top-4 left-1/2 -translate-x-1/2 bg-gray-900 bg-opacity-90 text-red-500 p-3 rounded-xl motivational-glow hidden modal-rise text-center"></div>
     </div>
 
     <!-- See Uploads Page -->
-    <div class="see-uploads-page">
-        <button class="back-button" onclick="goBackToHome()">Back to Home</button>
-        <h1>Task Image Viewer</h1>
-        <input type="date" id="datePicker">
-        <div class="container" id="imageGridSeeUploads"></div>
+    <div class="see-uploads-page hidden p-6 w-full max-w-7xl mx-auto">
+        <button class="bg-red-500 text-white p-3 rounded-xl font-bold font-bebas text-lg mb-6 hover:bg-red-400 pulse-glow" onclick="goBackToHome()">Back to Home</button>
+        <h1 class="text-4xl font-bold text-red-500 font-bebas mb-4 rise-up text-center">Your Victories</h1>
+        <div class="bg-gray-900 bg-opacity-90 p-4 rounded-xl motivational-glow mb-6 w-full max-w-md mx-auto text-center">
+            <p id="scoreBox" class="text-lg font-bold text-red-500 font-bebas mb-2">Score: 0/14</p>
+            <div class="progress-bar">
+                <div id="progressFill" class="progress-fill" style="width: 0%"></div>
+            </div>
+        </div>
+        <input type="date" id="datePicker" class="bg-gray-800 border-2 border-red-500 p-2 rounded-xl text-white mb-6 w-full max-w-xs mx-auto block focus:outline-none focus:border-red-400">
+        <div class="container grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4" id="imageGridSeeUploads"></div>
+        <div id="imageModal" class="fixed inset-0 bg-black bg-opacity-85 flex items-center justify-center hidden">
+            <div class="bg-gray-900 bg-opacity-95 p-6 rounded-2xl max-w-4xl w-full motivational-glow modal-rise">
+                <img id="modalImage" src="" alt="Zoomed Image" class="w-full max-h-[80vh] object-contain rounded-xl">
+                <button id="closeModal" class="mt-4 bg-red-500 text-white p-2 rounded-xl font-bold font-bebas hover:bg-red-400 w-full">Close</button>
+            </div>
+        </div>
     </div>
 
     <script type="module">
@@ -419,21 +211,27 @@
 
         // Auth Functions
         window.showSignUp = function () {
-            document.getElementById("login-box").classList.add("auth-section-hidden");
+            const loginBox = document.getElementById("login-box");
+            const signupBox = document.getElementById("signup-box");
+            loginBox.classList.remove("rise-up");
+            loginBox.classList.add("fade-in");
             setTimeout(() => {
-                document.getElementById("login-box").style.display = "none";
-                document.getElementById("signup-box").style.display = "block";
-                setTimeout(() => document.getElementById("signup-box").classList.remove("auth-section-hidden"), 50);
-            }, 500);
+                loginBox.classList.add("hidden");
+                signupBox.classList.remove("hidden");
+                signupBox.classList.add("rise-up");
+            }, 300);
         };
 
         window.showLogin = function () {
-            document.getElementById("signup-box").classList.add("auth-section-hidden");
+            const signupBox = document.getElementById("signup-box");
+            const loginBox = document.getElementById("login-box");
+            signupBox.classList.remove("rise-up");
+            signupBox.classList.add("fade-in");
             setTimeout(() => {
-                document.getElementById("signup-box").style.display = "none";
-                document.getElementById("login-box").style.display = "block";
-                setTimeout(() => document.getElementById("login-box").classList.remove("auth-section-hidden"), 50);
-            }, 500);
+                signupBox.classList.add("hidden");
+                loginBox.classList.remove("hidden");
+                loginBox.classList.add("rise-up");
+            }, 300);
         };
 
         window.handleSignUp = async function () {
@@ -443,11 +241,11 @@
 
             try {
                 await createUserWithEmailAndPassword(auth, email, password);
-                alert("Sign Up Successful! Please log in.");
+                showActionMessage("Signed Up! Log in to rise!", false);
                 showLogin();
             } catch (error) {
                 errorBox.innerText = error.message;
-                errorBox.style.display = "block";
+                errorBox.classList.remove("hidden");
             }
         };
 
@@ -458,81 +256,108 @@
 
             try {
                 await signInWithEmailAndPassword(auth, email, password);
-                document.getElementById("auth-section").classList.add("auth-section-hidden");
+                document.getElementById("auth-section").classList.add("fade-in");
                 setTimeout(() => {
-                    document.querySelector(".home-page").classList.add("active");
-                }, 500);
+                    document.getElementById("auth-section").classList.add("hidden");
+                    document.querySelector(".home-page").classList.remove("hidden");
+                    document.querySelector(".home-page").classList.add("fade-in");
+                }, 300);
             } catch (error) {
                 errorBox.innerText = "Invalid credentials. Try again!";
-                errorBox.style.display = "block";
+                errorBox.classList.remove("hidden");
             }
         };
 
         window.handleLogout = async function () {
             await signOut(auth);
-            document.querySelector(".home-page").classList.remove("active");
-            document.querySelector(".upload-page").classList.remove("active");
-            document.querySelector(".see-uploads-page").classList.remove("active");
+            document.querySelector(".home-page").classList.add("fade-in");
+            document.querySelector(".upload-page").classList.add("fade-in");
+            document.querySelector(".see-uploads-page").classList.add("fade-in");
             setTimeout(() => {
-                document.getElementById("auth-section").classList.remove("auth-section-hidden");
-            }, 500);
+                document.querySelector(".home-page").classList.add("hidden");
+                document.querySelector(".upload-page").classList.add("hidden");
+                document.querySelector(".see-uploads-page").classList.add("hidden");
+                document.getElementById("auth-section").classList.remove("hidden");
+                document.getElementById("auth-section").classList.add("fade-in");
+            }, 300);
         };
 
         // Navigation Functions
         window.openUploadPage = function () {
-            document.querySelector(".home-page").classList.remove("active");
-            document.querySelector(".upload-page").classList.add("active");
-            initializeUploadPage();
+            document.querySelector(".home-page").classList.add("fade-in");
+            setTimeout(() => {
+                document.querySelector(".home-page").classList.add("hidden");
+                document.querySelector(".upload-page").classList.remove("hidden");
+                document.querySelector(".upload-page").classList.add("fade-in");
+                initializeUploadPage();
+            }, 300);
         };
 
         window.openSeeUploadsPage = function () {
-            document.querySelector(".home-page").classList.remove("active");
-            document.querySelector(".see-uploads-page").classList.add("active");
-            initializeSeeUploadsPage();
+            document.querySelector(".home-page").classList.add("fade-in");
+            setTimeout(() => {
+                document.querySelector(".home-page").classList.add("hidden");
+                document.querySelector(".see-uploads-page").classList.remove("hidden");
+                document.querySelector(".see-uploads-page").classList.add("fade-in");
+                initializeSeeUploadsPage();
+            }, 300);
         };
 
-        // Back to Home Function
         window.goBackToHome = function () {
-            document.querySelector(".upload-page").classList.remove("active");
-            document.querySelector(".see-uploads-page").classList.remove("active");
-            document.querySelector(".home-page").classList.add("active");
+            document.querySelector(".upload-page").classList.add("fade-in");
+            document.querySelector(".see-uploads-page").classList.add("fade-in");
+            setTimeout(() => {
+                document.querySelector(".upload-page").classList.add("hidden");
+                document.querySelector(".see-uploads-page").classList.add("hidden");
+                document.querySelector(".home-page").classList.remove("hidden");
+                document.querySelector(".home-page").classList.add("fade-in");
+            }, 300);
         };
+
+        // Custom Alert Message
+        function showActionMessage(message, isError = false) {
+            const actionMessage = document.getElementById("actionMessage");
+            actionMessage.textContent = message;
+            actionMessage.classList.remove("hidden");
+            actionMessage.classList.add("modal-rise");
+            actionMessage.classList.toggle("text-red-400", isError);
+            actionMessage.classList.toggle("text-red-500", !isError);
+            setTimeout(() => {
+                actionMessage.classList.add("hidden");
+                actionMessage.classList.remove("modal-rise");
+            }, 2000);
+        }
 
         // Upload Page Functions
         function initializeUploadPage() {
             const activities = [
-                "Wakeup at 5am", "Exercise", "Meditation", "Tiffin", "Lunch", "Protein Powder", "Gym", "Dry Fruits", "Study Tasks"
+                "5 AM - Wake Up", "Make Bed & Brush", "Dry Fruits + Water", "Exercise + Walk (1hr)",
+                "Meditate (20min)", "Goal Reflection", "Review Last Night's Plan", "Eat Tiffin",
+                "Work Focus", "Temple Walk (Evening)", "Dinner", "Review Day's Progress",
+                "Plan Tomorrow", "Relax (No screens)"
             ];
 
             let selectedTaskName = null;
 
-            function showActionMessage(message, isError = false) {
-                const actionMessage = document.getElementById("actionMessage");
-                actionMessage.textContent = message;
-                actionMessage.style.color = isError ? "red" : "yellow";
-                actionMessage.style.display = "block";
-                setTimeout(() => {
-                    actionMessage.style.display = "none";
-                }, 3000);
-            }
-
             function createUploadBox(name) {
                 const box = document.createElement("div");
-                box.className = "upload-box glow";
-                box.innerHTML = "📷";
+                box.className = "bg-gray-900 bg-opacity-90 p-4 rounded-xl motivational-glow task-box cursor-pointer hover:bg-red-500 hover:text-white flex flex-col items-center";
+                box.innerHTML = `<span class="text-3xl mb-2">🏆</span>`;
                 const text = document.createElement("p");
+                text.className = "text-sm font-semibold text-center";
                 text.innerText = name;
                 box.appendChild(text);
 
                 const fileInput = document.createElement("input");
                 fileInput.type = "file";
                 fileInput.accept = "image/*";
+                fileInput.className = "hidden";
                 fileInput.addEventListener("change", function (event) {
                     if (event.target.files.length > 0) {
                         const reader = new FileReader();
                         reader.onload = function (e) {
                             document.getElementById("previewImage").src = e.target.result;
-                            document.getElementById("confirmationPrompt").style.display = "block";
+                            document.getElementById("confirmationPrompt").classList.remove("hidden");
                             selectedTaskName = name;
                         };
                         reader.readAsDataURL(event.target.files[0]);
@@ -540,14 +365,14 @@
                 });
 
                 box.addEventListener("click", function () {
-                    if (name === "Wakeup at 5am") {
+                    if (name === "5 AM - Wake Up") {
                         const now = new Date();
                         const hours = now.getHours();
                         const minutes = now.getMinutes();
                         if (hours === 5 && minutes >= 0 && minutes <= 30) {
                             fileInput.click();
                         } else {
-                            document.getElementById("timePrompt").style.display = "block";
+                            document.getElementById("timePrompt").classList.remove("hidden");
                         }
                     } else {
                         fileInput.click();
@@ -570,13 +395,13 @@
                     });
                     const result = await response.json();
                     if (result.data && result.data.url) {
-                        showActionMessage("Image uploaded to ImgBB successfully!");
+                        showActionMessage("Victory logged successfully!");
                         return result.data.url;
                     } else {
-                        throw new Error("Failed to upload image to ImgBB");
+                        throw new Error("Failed to upload image");
                     }
                 } catch (error) {
-                    showActionMessage("Failed to upload image to ImgBB: " + error.message, true);
+                    showActionMessage("Failed to log victory: " + error.message, true);
                     return null;
                 }
             }
@@ -608,18 +433,18 @@
                     data[selectedTaskName] = imageUrl;
 
                     await setDoc(docRef, data, { merge: true });
-                    showActionMessage(`Image URL saved to Firebase for ${selectedTaskName} on ${currentDate}!`);
+                    showActionMessage(`Victory recorded for ${selectedTaskName}!`);
                 } catch (error) {
-                    showActionMessage("Failed to save image URL to Firebase: " + error.message, true);
+                    showActionMessage("Failed to save victory: " + error.message, true);
                 }
             }
 
             function closePrompt() {
-                document.getElementById("confirmationPrompt").style.display = "none";
+                document.getElementById("confirmationPrompt").classList.add("hidden");
             }
 
             function closeTimePrompt() {
-                document.getElementById("timePrompt").style.display = "none";
+                document.getElementById("timePrompt").classList.add("hidden");
             }
 
             function createDynamicGrid() {
@@ -637,7 +462,10 @@
         // See Uploads Page Functions
         function initializeSeeUploadsPage() {
             const tasks = [
-                "Wakeup at 5am", "Exercise", "Meditation", "Tiffin", "Lunch", "Protein Powder", "Gym", "Dry Fruits", "Study Tasks"
+                "5 AM - Wake Up", "Make Bed & Brush", "Dry Fruits + Water", "Exercise + Walk (1hr)",
+                "Meditate (20min)", "Goal Reflection", "Review Last Night's Plan", "Eat Tiffin",
+                "Work Focus", "Temple Walk (Evening)", "Dinner", "Review Day's Progress",
+                "Plan Tomorrow", "Relax (No screens)"
             ];
 
             async function fetchAndDisplayTasks(date) {
@@ -647,30 +475,40 @@
 
                 const imageGrid = document.getElementById("imageGridSeeUploads");
                 imageGrid.innerHTML = "";
+                let completedTasks = 0;
 
                 if (docSnap.exists()) {
                     const data = docSnap.data();
                     tasks.forEach(task => {
                         const imageUrl = data[task];
+                        if (imageUrl) completedTasks++;
                         const taskBox = document.createElement("div");
-                        taskBox.className = "task-box";
+                        taskBox.className = "bg-gray-900 bg-opacity-90 p-4 rounded-xl motivational-glow task-box flex flex-col items-center";
                         taskBox.innerHTML = `
-                            ${imageUrl ? `<img src="${imageUrl}" alt="${task}">` : `<p class="no-image">No Image</p>`}
-                            <p>${task}</p>
+                            ${imageUrl ? `<img src="${imageUrl}" alt="${task}" class="w-full rounded-xl mb-2 cursor-pointer" onclick="openImageModal('${imageUrl}')">` : `<p class="text-gray-500 text-sm italic">No Victory</p>`}
+                            <p class="text-sm font-semibold text-center">${task}</p>
                         `;
                         imageGrid.appendChild(taskBox);
                     });
                 } else {
                     tasks.forEach(task => {
                         const taskBox = document.createElement("div");
-                        taskBox.className = "task-box";
+                        taskBox.className = "bg-gray-900 bg-opacity-90 p-4 rounded-xl motivational-glow task-box flex flex-col items-center";
                         taskBox.innerHTML = `
-                            <p class="no-image">No Image</p>
-                            <p>${task}</p>
+                            <p class="text-gray-500 text-sm italic">No Victory</p>
+                            <p class="text-sm font-semibold text-center">${task}</p>
                         `;
                         imageGrid.appendChild(taskBox);
                     });
                 }
+
+                // Update score box and progress bar
+                const totalTasks = tasks.length;
+                const scoreBox = document.getElementById("scoreBox");
+                scoreBox.textContent = `Score: ${completedTasks}/${totalTasks}`;
+                const progressFill = document.getElementById("progressFill");
+                const progressPercentage = (completedTasks / totalTasks) * 100;
+                progressFill.style.width = `${progressPercentage}%`;
             }
 
             document.getElementById("datePicker").addEventListener("change", (event) => {
@@ -682,6 +520,18 @@
             document.getElementById("datePicker").value = today;
             fetchAndDisplayTasks(today);
         }
+
+        // Image Modal Functions
+        window.openImageModal = function (imageUrl) {
+            const modal = document.getElementById("imageModal");
+            const modalImage = document.getElementById("modalImage");
+            modalImage.src = imageUrl;
+            modal.classList.remove("hidden");
+        };
+
+        document.getElementById("closeModal").addEventListener("click", () => {
+            document.getElementById("imageModal").classList.add("hidden");
+        });
     </script>
 </body>
 </html>
